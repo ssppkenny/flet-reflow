@@ -1,0 +1,23 @@
+[project]
+authors = ["Sergey Mikhno <sergey.mikhno@galenica.com>"]
+channels = ["conda-forge"]
+name = "flettest"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+scipy = ">=1.15.2,<2"
+numpy = ">=2.2.4,<3"
+setuptools = ">=75.8.2,<76"
+cython = ">=3.0.12,<4"
+pip = ">=25.0.1,<26"
+
+
+[pypi-dependencies]
+flet = "~=0.27.6"
+flet-cli = "~=0.27.6"
+flet-desktop = "~=0.27.6"
+flet-web = "~=0.27.6"
