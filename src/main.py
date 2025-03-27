@@ -2,7 +2,9 @@ import flet as ft
 import base64
 from io import BytesIO
 from dataclasses import dataclass
-
+import reflow
+import djvulib
+import cv2
 
 import readpdfutils as rpu
 from PIL import Image
@@ -12,14 +14,13 @@ from PIL import Image
 class Props:
     page_no: int
     path: str
-
-
+    kind: str
 
 
 def main(page: ft.Page):
     page.window.frameless = False
-    image1 = ft.Image(src="images/icon.png", fit=ft.ImageFit.NONE)
-    props = Props(0, "")
+    image1 = ft.Image(src="images/icon.png", fit=ft.ImageFit.FIT_WIDTH)
+    props = Props(0, "", "")
 
     def select_file(e: ft.FilePickerResultEvent):
         page.add(filepicker)
@@ -29,11 +30,16 @@ def main(page: ft.Page):
     def return_file(e: ft.FilePickerResultEvent):
         path = e.files[0].path
         props.path = path
+        props.page_no = 0
         page_no = props.page_no
         s = ""
         if path.endswith(".pdf"):
+            props.kind = "pdf"
             update_image(page_no, path)
             s = f"{path}"
+        elif path.endswith(".djvu"):
+            props.kind = "djvu"
+            update_image_djvu(page_no, path)
         file_path.value = s
         file_path.update()
         page.update()
@@ -43,13 +49,30 @@ def main(page: ft.Page):
             props.page_no -= 1
             page_no = props.page_no
             path = props.path
-            update_image(page_no, path)
+            if props.kind == "pdf":
+                update_image(page_no, path)
+            elif props.kind == "djvu":
+                update_image_djvu(page_no, path)
 
     def next_page(e):
         props.page_no += 1
         page_no = props.page_no
         path = props.path
-        update_image(page_no, path)
+        if props.kind == "pdf":
+            update_image(page_no, path)
+        elif props.kind == "djvu":
+            update_image_djvu(page_no, path)
+
+    def update_image_djvu(page_no, path):
+        arr = djvulib.get_image_as_arrray(page_no, path)
+        _, bw = cv2.threshold(arr, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        img = Image.fromarray(bw, "L")
+        buff = BytesIO()
+        img.save(buff, format="PNG")
+        newstring = base64.b64encode(buff.getvalue()).decode("utf-8")
+        image1.src_base64 = newstring
+        image1.fit = ft.ImageFit.FIT_WIDTH
+        image1.update()
 
     def update_image(page_no, path):
         width = page.width
@@ -60,6 +83,7 @@ def main(page: ft.Page):
         img.save(buff, format="PNG")
         newstring = base64.b64encode(buff.getvalue()).decode("utf-8")
         image1.src_base64 = newstring
+        image1.fit = ft.ImageFit.FIT_WIDTH
         image1.update()
 
     row_filepicker = ft.Row(vertical_alignment="center")
@@ -83,7 +107,7 @@ def main(page: ft.Page):
             expand=1,
             controls=[
                 row_filepicker,
-                images,
+                image1,
                 buttons,
             ],
         )
