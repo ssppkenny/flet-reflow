@@ -177,7 +177,10 @@ def main(page: ft.Page):
             myobjects.bar.update()
 
 
-    row_filepicker = ft.Row(vertical_alignment="center")
+    first_row = ft.Row(alignment="center")
+    txt_field = ft.Text(value="Reflow-App", expand=1)
+    first_row.controls.append(txt_field)
+    row_filepicker = ft.Row(alignment="center")
     file_path = ft.Text(value="Selected file path", expand=1)
     filepicker = ft.FilePicker(on_result=return_file)
 
@@ -199,6 +202,7 @@ def main(page: ft.Page):
             scroll=ft.ScrollMode.ALWAYS,
             expand=1,
             controls=[
+                first_row,
                 row_filepicker,
                 st,
                 buttons,
