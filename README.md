@@ -13,6 +13,7 @@ pixi shell
 ```
 export PIP_FIND_LINKS=echo $(readlink -f dist)
 flet build apk -v
+connect your device
 adb install build/apk/app-release.apk
 ```
 
