@@ -1,5 +1,11 @@
 # Flettest app
 
+```
+install pixi (https://pixi.sh/latest/#installation)
+pixi install
+pixi shell
+```
+
 ## Build the app
 
 ### Android
