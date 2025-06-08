@@ -10,10 +10,14 @@ authors = [
 dependencies = [
   "flet==0.27.6",
   "numpy==1.26.4",
-  "certifi",
+  "certifi==2025.4.26",
+  "opencv-python",
   "pillow",
+  "intervaltree",
   "sortedcontainers",
-  "readpdfutils==1.0.4"
+  "readpdfutils==1.0.5",
+  "djvulib==0.1.3",
+  "fastrlsa==0.0.6",
 ]
 
 requires = [
