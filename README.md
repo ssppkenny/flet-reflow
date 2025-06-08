@@ -5,6 +5,7 @@
 ### Android
 
 ```
+export PIP_FIND_LINKS=path-to-dist
 flet build apk -v
 ```
 
