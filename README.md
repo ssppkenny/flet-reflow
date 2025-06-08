@@ -13,6 +13,7 @@ pixi shell
 ```
 export PIP_FIND_LINKS=path-to-dist
 flet build apk -v
+adb install build/apk/app-release.apk
 ```
 
 For more details on building and signing `.apk` or `.aab`, refer to the [Android Packaging Guide](https://flet.dev/docs/publish/android/).
