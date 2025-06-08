@@ -11,7 +11,7 @@ pixi shell
 ### Android
 
 ```
-export PIP_FIND_LINKS=path-to-dist
+export PIP_FIND_LINKS=echo $(readlink -f dist)
 flet build apk -v
 adb install build/apk/app-release.apk
 ```
