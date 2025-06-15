@@ -40,6 +40,6 @@ If you don have necessary python packages (mobile-forge recipes (whl)), then you
 15. git clone https://github.com/ssppkenny/flet-reflow.git
 16. Enter flet-reflow
 17. Run pixi install, pixi shell
-18. export PIP_PDF_LINKS=echo $(readlink -f dist)
+18. export PIP_FIND_LINKS=echo $(readlink -f dist)
 19. flet build apk
 
